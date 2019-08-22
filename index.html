@@ -152,6 +152,183 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Java 图片转PDF" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/22/Java 图片转PDF/">Java 图片转PDF</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/22/Java 图片转PDF/" class="archive-article-date">
+  	<time datetime="2019-08-22T06:55:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>package imgconvertpdf;</p>
+<p>import java.awt.image.BufferedImage;<br>import java.io.File;<br>import java.io.FileOutputStream;<br>import java.io.IOException;<br>import java.util.Arrays;</p>
+<p>import javax.imageio.ImageIO;</p>
+<p>import com.lowagie.text.BadElementException;<br>import com.lowagie.text.Document;<br>import com.lowagie.text.DocumentException;<br>import com.lowagie.text.Image;<br>import com.lowagie.text.Rectangle;<br>import com.lowagie.text.pdf.PdfWriter;</p>
+<p>/**</p>
+<ul>
+<li><p>将多张图片合并转为PDF；需要用到iTextpdf包，</p>
+</li>
+<li></li>
+<li><p>@author 浴缸</p>
+</li>
+<li></li>
+<li><p>/<br>public class PrintToPdfUtil {<br>  /**</p>
+<ul>
+<li></li>
+<li><p>@param imageFolderPath</p>
+</li>
+<li><p>图片文件夹地址</p>
+</li>
+<li><p>@param pdfPath</p>
+</li>
+<li><p>PDF文件保存地址</p>
+</li>
+<li></li>
+<li><p>/</p>
+<p>public static void toPdf(String imageFolderPath, String pdfPath) {<br>  try {</p>
+<pre><code>// 图片文件夹地址
+// String imageFolderPath = &quot;D:/Demo/ceshi/&quot;;
+// 图片地址
+String imagePath = null;
+// PDF文件保存地址
+// String pdfPath = &quot;D:/Demo/ceshi/hebing.pdf&quot;;
+// 输入流
+FileOutputStream fos = new FileOutputStream(pdfPath);
+// 创建文档
+Document doc = new Document(null, 0, 0, 0, 0);
+// doc.open();
+// 写入PDF文档
+PdfWriter.getInstance(doc, fos);
+// 读取图片流
+BufferedImage img = null;
+// 实例化图片
+Image image = null;
+// 获取图片文件夹对象
+File file = new File(imageFolderPath);
+File[] files = file.listFiles();
+
+Arrays.sort(files);
+// 循环获取图片文件夹内的图片
+for (File file1 : files) {
+    if (file1.isDirectory()) {
+        System.out.println(file1.getName() + &quot;文件夹处理&quot;);
+
+        File[] files2 = file1.listFiles();
+        Arrays.sort(files2);
+        for (File file2 : files2) {
+            if ((file2.getName().endsWith(&quot;.png&quot;) || file2.getName().endsWith(&quot;.jpg&quot;)
+                    || file2.getName().endsWith(&quot;.gif&quot;) || file2.getName().endsWith(&quot;.jpeg&quot;)
+                    || file2.getName().endsWith(&quot;.tif&quot;)) &amp;&amp; !file2.getName().startsWith(&quot;.&quot;)) {
+                // System.out.println(file1.getName());
+                imagePath = imageFolderPath + &apos;/&apos; + file1.getName() + &apos;/&apos; + file2.getName();
+                System.out.println(file2.getName());
+                // 读取图片流
+                img = ImageIO.read(new File(imagePath));
+                // 根据图片大小设置文档大小
+                doc.setPageSize(new Rectangle(img.getWidth(), img.getHeight()));
+                // 实例化图片
+                image = Image.getInstance(imagePath);
+                // 添加图片到文档
+                doc.open();
+                doc.add(image);
+            }
+        }
+    } else {
+        if ((file1.getName().endsWith(&quot;.png&quot;) || file1.getName().endsWith(&quot;.jpg&quot;)
+                || file1.getName().endsWith(&quot;.gif&quot;) || file1.getName().endsWith(&quot;.jpeg&quot;)
+                || file1.getName().endsWith(&quot;.tif&quot;)) &amp;&amp; !file1.getName().startsWith(&quot;.&quot;)) {
+            // System.out.println(file1.getName());
+            imagePath = imageFolderPath + file1.getName();
+            System.out.println(file1.getName());
+            // 读取图片流
+            img = ImageIO.read(new File(imagePath));
+            // 根据图片大小设置文档大小
+            doc.setPageSize(new Rectangle(img.getWidth(), img.getHeight()));
+            // 实例化图片
+            image = Image.getInstance(imagePath);
+            // 添加图片到文档
+            doc.open();
+            doc.add(image);
+        }
+    }
+}
+// 关闭文档
+doc.close();</code></pre><p>  } catch (IOException e) {</p>
+<pre><code>e.printStackTrace();</code></pre><p>  } catch (BadElementException e) {</p>
+<pre><code>e.printStackTrace();</code></pre><p>  } catch (DocumentException e) {</p>
+<pre><code>e.printStackTrace();</code></pre><p>  }<br>}</p>
+<p>public static void main(String[] args) {<br>  long time1 = System.currentTimeMillis();<br>  toPdf(“/Volumes/Transcend/ChromeDownload/临时文件夹/0-9/“,</p>
+<pre><code>&quot;/Volumes/Transcend/ChromeDownload/临时文件夹/0-9.pdf&quot;);</code></pre><p>  long time2 = System.currentTimeMillis();<br>  int time = (int) ((time2 - time1) / 1000);<br>  System.out.println(“执行了：” + time + “秒！”);<br>}</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>}</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/22/Java 图片转PDF/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -327,6 +504,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
